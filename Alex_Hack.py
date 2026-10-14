@@ -14,7 +14,6 @@ headers = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64)"
 }
 
-# improved email regex (captures .co.ke and uppercase TLDs)
 email_pattern = r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}"
 
 count = 0
@@ -39,8 +38,6 @@ try:
         except (requests.exceptions.MissingSchema, 
                 requests.exceptions.ConnectionError):
             continue
-
-        # extract emails
         new_emails = set(re.findall(email_pattern, response.text))
         emails.update(new_emails)
 
@@ -49,7 +46,6 @@ try:
         for anchor in soup.find_all('a'):
             link = anchor.get('href', '')
 
-            # ignore empty, JS or mailto links
             if link.startswith("javascript") or link.startswith("#") or link.startswith("mailto"):
                 continue
 
